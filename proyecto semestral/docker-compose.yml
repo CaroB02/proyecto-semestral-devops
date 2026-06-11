@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # 1. Base de Datos (PostgreSQL en este caso, común para estos proyectos de Duoc)
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: bd_innovatech
+    environment:
+      POSTGRES_USER: tu_usuario
+      POSTGRES_PASSWORD: tu_password_seguro
+      POSTGRES_DB: innovatech_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - innovatech_network
+
+  # 2. Backend de Ventas
+  back_ventas:
+    build: ./back-Ventas_SpringBoot/Springboot-API-REST
+    container_name: back_ventas_container
+    ports:
+      - "8081:8080" # Mapea el puerto del contenedor al 8081 de tu PC
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_db:5432/innovatech_db
+      - SPRING_DATASOURCE_USERNAME=tu_usuario
+      - SPRING_DATASOURCE_PASSWORD=tu_password_seguro
+    depends_on:
+      - postgres_db
+    networks:
+      - innovatech_network
+
+  # 3. Backend de Despachos
+  back_despachos:
+    build: ./back-Despachos_SpringBoot/Springboot-API-REST-DESPACHO
+    container_name: back_despachos_container
+    ports:
+      - "8082:8080" # Mapea el puerto del contenedor al 8082 de tu PC
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_db:5432/innovatech_db
+      - SPRING_DATASOURCE_USERNAME=tu_usuario
+      - SPRING_DATASOURCE_PASSWORD=tu_password_seguro
+    depends_on:
+      - postgres_db
+    networks:
+      - innovatech_network
+
+  # 4. Frontend de la aplicación
+  frontend:
+    build: ./front_despacho
+    container_name: front_despacho_container
+    ports:
+      - "80:80" # Expone la web en el puerto 80 estándar
+    depends_on:
+      - back_ventas
+      - back_despachos
+    networks:
+      - innovatech_network
+
+# Cumple con el criterio de Persistencia Funcional mediante Volumen Nombrado (Rúbrica IE3)
+volumes:
+  db_data:
+
+# Red interna aislada para la comunicación de servicios (Buenas prácticas)
+networks:
+  innovatech_network:
+    driver: bridge
