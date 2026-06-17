@@ -2,7 +2,7 @@ name: Deploy Proyecto Semestral
 
 on:
   push:
-    branches: [ "main" ] # Se activa cada vez que suben cambios
+    branches: [ "main" ] # Se activa cada vez que suben cambios al main
 
 jobs:
   build-and-push:
@@ -28,18 +28,15 @@ jobs:
     - name: Compilar Backend Ventas
       run: |
         cd "proyecto semestral/back-Ventas_SpringBoot/Springboot-API-REST-VENTAS"
-        chmod +x mvnw
-        ./mvnw clean package -DskipTests
+        mvn clean package -DskipTests
 
     - name: Compilar Backend Despachos
       run: |
         cd "proyecto semestral/back-Despachos_SpringBoot/Springboot-API-REST-DESPACHOS"
-        chmod +x mvnw
-        ./mvnw clean package -DskipTests
+        mvn clean package -DskipTests
 
     - name: Construir e Impulsar imágenes
       run: |
-        # Cambia 'carolinaaaa' por tu usuario real si es necesario en las etiquetas
         docker build -t carolinaaaa/back-ventas:latest "proyecto semestral/back-Ventas_SpringBoot/Springboot-API-REST-VENTAS"
         docker build -t carolinaaaa/back-despachos:latest "proyecto semestral/back-Despachos_SpringBoot/Springboot-API-REST-DESPACHOS"
         
