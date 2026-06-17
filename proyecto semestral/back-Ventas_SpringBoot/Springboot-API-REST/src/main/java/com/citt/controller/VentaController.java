@@ -61,6 +61,11 @@ public class VentaController {
         ventaService.deleteVenta(idVenta);
         return ResponseEntity.noContent().build(); // Respuesta 204 No Content si se elimina correctamente
     }
+    @GetMapping("/saludo")
+    @Operation(summary = "Verificar despliegue", description = "Muestra el estado del despliegue continuo")
+    public ResponseEntity<String> saludoDevOps() {
+        return ResponseEntity.ok("Despliegue Exitoso Carolina Bravo");
+    }
 }
 
 
