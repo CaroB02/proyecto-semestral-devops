@@ -50,3 +50,4 @@ jobs:
         docker push carolina_docker/back-ventas:latest
         docker push carolina_docker/back-despachos:latest
         docker push carolina_docker/front-despacho:latest
+         
