@@ -7,7 +7,7 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout del código
       uses: actions/checkout@v3
@@ -25,29 +25,23 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    # 1. Compilar Backend Ventas
     - name: Compilar Backend Ventas
       run: |
         cd "proyecto semestral/back-Ventas_SpringBoot/Springboot-API-REST-VENTAS"
         chmod +x mvnw
         ./mvnw clean package -DskipTests
 
-    # 2. Compilar Backend Despachos
     - name: Compilar Backend Despachos
       run: |
-        cd "proyecto semestral/back-Despachos_SpringBoot/Springboot-API-REST-DESPACHO"
+        cd "proyecto semestral/back-Despachos_SpringBoot/Springboot-API-REST-DESPACHOS"
         chmod +x mvnw
         ./mvnw clean package -DskipTests
 
-    # 3. Construir y subir imágenes a Docker Hub
-    # REEMPLAZA 'carolina_docker' POR TU USUARIO REAL DE DOCKER HUB SI ES OTRO
     - name: Construir e Impulsar imágenes
       run: |
-        docker build -t carolina_docker/back-ventas:latest "./proyecto semestral/back-Ventas_SpringBoot/Springboot-API-REST-VENTAS"
-        docker build -t carolina_docker/back-despachos:latest "./proyecto semestral/back-Despachos_SpringBoot/Springboot-API-REST-DESPACHO"
-        docker build -t carolina_docker/front-despacho:latest "./proyecto semestral/front-despacho"
+        # Cambia 'carolinaaaa' por tu usuario real si es necesario en las etiquetas
+        docker build -t carolinaaaa/back-ventas:latest "proyecto semestral/back-Ventas_SpringBoot/Springboot-API-REST-VENTAS"
+        docker build -t carolinaaaa/back-despachos:latest "proyecto semestral/back-Despachos_SpringBoot/Springboot-API-REST-DESPACHOS"
         
-        docker push carolina_docker/back-ventas:latest
-        docker push carolina_docker/back-despachos:latest
-        docker push carolina_docker/front-despacho:latest
-         
+        docker push carolinaaaa/back-ventas:latest
+        docker push carolinaaaa/back-despachos:latest
