@@ -1,0 +1,15 @@
+package com.citt.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/v1/prueba")
+public class PruebaController {
+
+    @GetMapping("/saludo")
+    public String saludoDevOps() {
+        return "Despliegue Exitoso Carolina Bravo";
+    }
+}
